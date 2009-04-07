@@ -1,0 +1,6 @@
+<% if flash[:error] %>
+	<span class="error">
+		<%= image_tag("tango-icon-theme/22x22/actions/process-stop.png") %>
+		<%= flash[:error] %>
+	</span>
+<% end %>

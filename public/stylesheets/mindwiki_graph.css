@@ -1,0 +1,538 @@
+/* DIV style */
+#vport {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	top: 25px;
+}
+
+/* Umm.  */
+#top-menu
+{
+	height: 23px;
+}
+
+.mindwiki_viewport
+{
+	position: absolute;
+	top: 25px;
+	/*width: 100%;
+	bottom: 0px;*/
+	color: black;
+        overflow: auto;
+	/*overflow: hidden;*/
+}
+
+#mindwiki_world
+{
+  position: absolute;
+  height: 9999px;
+  width: 9999px;
+  overflow: hidden;
+}
+
+.syncError {
+  position: absolute;
+  border: 3px solid red;
+  background: gray;
+}
+
+.config {
+  position: fixed;
+  top: 25px;
+  right: 30px;
+  padding: 5px;
+  background-color: gray;
+  z-index: 99999999; /*top?*/
+  overflow: auto;
+  opacity: 0.5;
+}
+
+.vScrollbarr {
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  right: 10px;
+  background-color: rgba(128,128,128,0.54);
+  z-index: 99999999;
+}
+
+.hScrollbarr {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: 10px;
+  background-color: rgba(128,128,128,0.54);
+  z-index: 99999999;
+}
+
+.zoomScrollbar {
+  position: absolute;
+  height: 200px;
+  bottom: 50px;
+  left: 20px;
+  background-color: rgba(128,128,128,0.54);
+  z-index: 99999999;
+}
+
+.navigator {
+  position: fixed;
+  right: 100px;
+  bottom: 80px;
+  z-index: 99999999;
+  /*width: 84px;
+  height: 84px;*/
+}
+
+.navigatorLeft {
+	background-image: url("/images/left_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 28px;
+	left: 0px;
+}
+
+.navigatorRight {
+	background-image: url("/images/right_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: relative;
+	top: 28px;
+	left: 56px;
+}
+
+.navigatorUp {
+	background-image: url("/images/up_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0px;
+	left: 28px;
+}
+
+.navigatorDown {
+	background-image: url("/images/down_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 56px;
+	left: 28px;
+}
+
+#rc-container
+{
+}
+
+/* DIV style */
+
+/* Ajax loading spinner in the left upper hand corner: */
+.loadingDiv
+{
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  /*background-color: white;*/ /* TODO: Adjust spinner color according to the background color */
+  background-image: url("/images/ajax_loading_spinner.gif");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  opacity: 0.6;
+  z-index: 99999999; /*top?*/
+}
+
+
+
+.note
+{
+	position: absolute;
+	border: 2px solid black;
+	top: 10px;
+	left: 10px;
+	width: 200px;
+	height: 300px;
+	background-color: white;
+	color: black;
+	/* Workaround to avoid content shifting when changing border to 3px. */	
+	margin: 1px;
+}
+
+.noteTargeted
+{
+	/* Workaround to avoid content shifting when changing border to 3px. */	
+	margin: 0px;
+	border-width: 3px;
+	border-color: #e7a700;
+}
+
+.noteEdit
+{
+	position: absolute;
+	left: 0px;
+	/*right: 0px;*/
+	width: 100%;
+	top: 0px;
+    overflow : hidden;
+}
+
+/*
+.ui-resizable-se
+{
+	bottom: 0px;
+	right: 0px;
+	width: 16px;
+	height: 16px;
+	background-image: url("/images/resize.png");
+	z-index: 100000;
+}
+*/
+.context_help *:hover
+{
+	background-color: #ccc;
+	color: black;
+}
+
+.context_help
+{
+	position: absolute;
+	bottom: 20px;
+	left: 10px;
+	padding: 2px;
+	background-color: #ccc;
+	z-index: 1000000;
+	opacity: 0.6;
+}
+
+/* DIV style */
+.noteSelected
+{
+	border: 3px solid yellow;
+	/* Workaround to avoid content shifting when changing border to 3px. */	
+	margin: 0px;
+}
+
+/* DIV style */
+.noteDisabled
+{
+	border: 3px solid gray;
+	/* Workaround to avoid content shifting when changing border to 3px. */	
+	margin: 0px;
+}
+
+/* A style */
+/*
+.noteButton
+{
+	color: blue;
+}
+*/
+.noteArrowButton
+{
+	background-image: url("/images/arrow_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 0px;
+}
+
+.noteColorButton
+{
+	background-image: url("/images/color_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 28px;
+}
+
+.noteDeleteButton
+{
+	background-image: url("/images/delete_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	right: -4px;
+}
+
+.noteTextButton
+{
+	background-image: url("/images/text_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 56px;
+}
+
+
+
+/* Pressed buttons ought to share some of this. */
+.noteArrowButtonPressed
+{
+	background-image: url("/images/arrow_pressed_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 0px;
+}
+
+.noteColorButtonPressed
+{
+	background-image: url("/images/color_pressed_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 28px;
+}
+
+.noteDeleteButtonPressed
+{
+	background-image: url("/images/delete_pressed_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	right: -4px;
+}
+
+/* edge buttons */
+.edgeTextButton
+{
+	background-image: url("/images/text_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 0px;
+}
+
+.edgeColorButton
+{
+	background-image: url("/images/color_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 28px;
+}
+
+.edgeDirectionButton
+{
+	background-image: url("/images/arrow_direction_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 56px;
+}
+
+.edgeDirectionButtonPressed
+{
+	background-image: url("/images/arrow_direction_pressed_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 56px;
+}
+
+.edgeDeleteButton
+{
+	background-image: url("/images/delete_btn.png");
+	background-repeat: no-repeat;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 0;
+	left: 84px;
+}
+
+
+/* TD style */
+.noteButton
+{
+	position: absolute;
+	height: 28px;
+	z-index: 1000;
+}
+
+/* TD style */
+.noteTitle
+{
+	border-bottom: black solid thin;
+	border-top: none;
+	position: absolute;
+	top: 0px;
+	height: 20px;
+	left: 0px;
+	right: 0px;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+	background-color: #ccc; 
+	color: black;
+	padding: 2px;
+   overflow : hidden;
+}
+
+.noteTitleMaxed
+{
+	height: 100%;
+	text-align: center;
+}
+
+.edgeTitle
+{
+	border: black solid thin;
+	position: absolute;
+	height: 20px;
+	width: 120px;
+	background-color: #ffffff; 
+	color: black;
+	padding: 0px;
+  overflow : hidden;
+}
+
+
+/* DIV style */
+/*
+.noteArticle
+{
+	right: 0px;
+	bottom: 0px;
+	background-color: white;
+	color: black;
+        margin-top: -15px;
+        margin-left: 0px;
+        margin-bottom: -1px;
+	position: relative;
+	top: 28px;
+	padding: 2px;
+	overflow: auto;
+}*/
+.articleContainer
+{
+	position: absolute;
+	overflow: hidden;
+}
+
+.noteArticle
+{
+	top: 20px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: white;
+	color: black;
+  /*margin-top: -15px;
+  margin-left: 0px;
+  margin-bottom: -1px;*/
+	position: absolute;
+	padding: 2px;
+	overflow: hidden;
+}
+
+.external_link
+{
+	background: url('http://bloggerbuster.com/images/bb_post/home.gif') no-repeat; /* find somethign better */
+	padding-right: 20px;
+	background-position: center right;
+}
+
+/* Just copy-pasted this here, even though we lack the pics etc.. */
+.flora .ui-dialog,
+.flora.ui-dialog {
+	background-color: #e6f7d4;
+}
+
+.flora .ui-dialog .ui-dialog-titlebar,
+.flora.ui-dialog .ui-dialog-titlebar {
+	border-bottom: 1px solid #d8d2aa;
+	background: #ff9900 url(i/dialog-title.gif) repeat-x;
+	padding: 0px;
+	height: 28px;
+	_height: 29px;
+}
+
+.flora .ui-draggable .ui-dialog-titlebar,
+.flora.ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+}
+
+.flora .ui-draggable-disabled .ui-dialog-titlebar,
+.flora.ui-draggable-disabled .ui-dialog-titlebar {
+	cursor: default;
+}
+
+.flora .ui-dialog .ui-dialog-titlebar-close,
+.flora.ui-dialog .ui-dialog-titlebar-close {
+	width: 16px;
+	height: 16px;
+	background: url(i/dialog-titlebar-close.png) no-repeat;
+	position:absolute;
+	top: 6px;
+	right: 7px;
+	cursor: default;
+}
+
+.flora .ui-dialog .ui-dialog-titlebar-close span,
+.flora.ui-dialog .ui-dialog-titlebar-close span {
+	display: none;
+}
+
+.flora .ui-dialog .ui-dialog-titlebar-close-hover,
+.flora.ui-dialog .ui-dialog-titlebar-close-hover {
+	background: url(i/dialog-titlebar-close-hover.png) no-repeat;
+}
+
+.flora .ui-dialog .ui-dialog-title,
+.flora.ui-dialog .ui-dialog-title {
+	margin-left: 5px;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	top: 7px;
+	left: 4px;
+}
+
+.flora .ui-dialog .ui-dialog-content,
+.flora.ui-dialog .ui-dialog-content {
+	margin: 1.2em;
+}
+
+.flora .ui-dialog .ui-dialog-buttonpane,
+.flora.ui-dialog .ui-dialog-buttonpane {
+	position: absolute;
+	bottom: 8px;
+	right: 12px;
+	width: 100%;
+	text-align: right;
+}
+
+.flora .ui-dialog .ui-dialog-buttonpane button,
+.flora.ui-dialog .ui-dialog-buttonpane button {
+	margin: 6px;
+	
+
+}

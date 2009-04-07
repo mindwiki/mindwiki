@@ -1,0 +1,23 @@
+<%= javascript_include_tag :graph_color_picker %>
+<%= stylesheet_link_tag :graph_color_picker %>
+<h1>New graph</h1>
+
+<% form_for(@graph) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :color %><br />
+    <%= f.text_field :color %>
+    <div id="picker">
+    </div>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', graphs_path %>

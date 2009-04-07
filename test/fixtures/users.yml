@@ -1,0 +1,22 @@
+mwiki:
+  id: 1
+  login: mwiki
+  email: mwiki@localhost
+  salt: 7c50035b9cf2b0b68a1c3a40b28c65b2a3510f5e
+  crypted_password: cf30ac697257bc6f223e1a9639022bfdeaa17da0 # mwiki
+  created_at: <%= 5.days.ago.to_s :db %>
+  deleted: false
+  admin: true
+
+
+aaron:
+  id: 2
+  login: aaron
+  email: aaron@example.com
+  salt: 7e3041ebc2fc05a40c60028e2c4901a81035d3cd
+  crypted_password: 00742970dc9e6319f8019fd54864d3ea740f04b1 # test
+  created_at: <%= 1.days.ago.to_s :db %>
+  deleted: false
+  admin: false
+
+

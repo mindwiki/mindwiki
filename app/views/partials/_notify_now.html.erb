@@ -1,0 +1,6 @@
+<% if flash[:notice] %>
+	<span id="notice">
+		<%= image_tag("tango-icon-theme/22x22/emotes/face-monkey.png") %>
+		<%= flash.now[:notice] %>
+	</span>
+<% end %>

@@ -1,0 +1,33 @@
+<% if logged_in? %>
+<div id="top-menu">
+  <div id="account">
+    <ul><li><a href="#" class="myaccount">My account</a></li>
+    <li><a href="/sessions/destroy" class="logout">Sign out</a></li></ul>
+  </div>
+  <div id="loggedas">Logged in as <%= current_user.login %>
+  </div>
+  <ul>
+    <li><a href="/graphs" class="graphs">Graphs</a><% if @graph && !@graph.id.nil? %> : <%= link_to @graph.name, graph_url(:id=>@graph.id), :class => "graphNameLink" %><%= link_to "[Edit]", edit_graph_url(:id=> @graph.id) %><% end %></li>
+  </ul>
+</div>
+
+<div class="navibar_container">
+	<table class="navibar">	
+	  <tr>
+		<td>
+			<span id="notice_container">
+				<%= render :partial => "/partials/notify" %>
+			</span>
+			<span id="warning_container">
+				<%= render :partial => "/partials/warning" %>
+			</span>
+			<span id="error_container">
+				<%= render :partial => "/partials/error" %>
+			</span>
+		</td>
+	  </tr>
+	</table>
+</div>
+<% else %>
+
+<% end %>

@@ -1,0 +1,61 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+ruby_note:
+  id: 1
+  name: Ruby
+  x: 50
+  y: 10
+  width: 200
+  height: 240
+  color: '#abba10'
+  article_id: 1
+  graph_id: 1
+  zorder: 10
+
+oo_note:
+  id: 2
+  name: OO
+  x: 450
+  y: 10
+  width: 200
+  height: 140
+  color: gray #normal css color definitions
+  article_id: 2
+  graph_id: 1
+  zorder: 11
+
+matsumoto_note:
+  id: 3
+  name: Yukihiro Matsumoto
+  x: 50
+  y: 300
+  width: 300
+  height: 200
+  color: '#bababa'
+  article_id: 3
+  graph_id: 1
+  zorder: 12
+
+redcloth_example_note:
+  id: 4
+  name: RedCloth parsing sample
+  x: 50
+  y: 10
+  width: 400
+  height: 500
+  color: gray
+  graph_id: 3
+  article_id: 4
+  zorder: 13
+
+matsumoto_yt_note:
+  id: 5
+  name: Matsumoto speech at GoogleTech
+  x: 450
+  y: 200
+  width: 450
+  height: 450
+  color: '#ffccaa'
+  graph_id: 1
+  article_id: 5
+  zorder: 14

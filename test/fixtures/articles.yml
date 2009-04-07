@@ -1,0 +1,39 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+ruby_art:
+  id: 1
+  content: "Ruby is a fantastic language\n
+            !http://www.cs.helsinki.fi/u/partel/ruby_pikaopas/Ruby_logo_100x100.png!"
+  content_type: 1
+
+oo_art:
+  id: 2
+  content: Ruby is _pure_ OO. *Yay!*
+  content_type: 1
+
+matsumoto_art:
+  id: 3
+  content: Ruby creation was started by Yukihiro "Matz" Matsumoto in 1993, and first published in 1995.
+  content_type: 1
+
+redcloth_art:
+  id: 4
+  content: "\n
+
+h1. RedCloth is a Textile module for Ruby\n
+
+h2. Here are some examples of the functionality.\n
+
+Emphasis can be added with _underscores_ and *stars*.\n
+Errors can be -corected- +corrected+.\n
+V ~UPij~ has 10 ^9^ connections.\n
+Linked pic from cs.helsinki.fi: !http://www.cs.helsinki.fi/u/partel/ruby_pikaopas/Ruby_logo_100x100.png!\n
+\"Linky to ruby\":http://ruby-lang.org\n
+
+"
+  content_type: 1
+
+matsumoto_yt_art:
+  id: 5
+  content: "[[Youtube|oEkJvvGEtB4]]"
+  content_type: 1

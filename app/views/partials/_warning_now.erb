@@ -1,0 +1,6 @@
+<% if flash[:warning] %>
+	<span id="warning">
+		<%= image_tag("tango-icon-theme/22x22/status/software-update-urgent.png") %>
+		<%= flash.now[:warning] %>
+	</span>
+<% end %>

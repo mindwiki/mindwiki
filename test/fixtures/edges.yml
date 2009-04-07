@@ -1,0 +1,22 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+ruby_oo_edge:
+  source_id: 1
+  target_id: 2
+  directed: false
+  name:
+  color: '#000000'
+
+ruby_matsumoto_edge:
+  source_id: 1
+  target_id: 3
+  directed: true
+  name: Created by
+  color: '#ff00ff'
+
+matsumoto_youtube_edge:
+  source_id: 3
+  target_id: 5
+  directed: true
+  name: Speech at GoogleTech
+  color: black

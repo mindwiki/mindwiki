@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><% if @graph && !@graph.id.nil? %><%= @graph.name %> (MindWiki)<% else %><%= controller.controller_name %>: <%= controller.action_name %><% end %></title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag :mindwiki_graph %>
+  <%= javascript_include_tag :mindwiki_graph %>
+  
+</head>
+<body>
+
+<div id="world">
+	<%= render :partial => '/partials/navibar' %>
+	<div id="content">
+		<%= yield  %>
+	</div>	
+</div>
+
+</body>
+</html>
