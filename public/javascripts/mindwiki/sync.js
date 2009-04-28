@@ -1,3 +1,31 @@
+/*
+
+The MIT License
+
+Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
+Aapo Laitinen, Matias Muhonen, Anssi Männistö, Samu Ollila, Jukka Peltomäki,
+Matias Piipari, Lauri Renko, Aapo Tahkola, and Juhani Tamminen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 // Server synchronization
 
 // Get means getting information FROM the server.
@@ -110,7 +138,7 @@ function checkServerForUpdates(syncObject){
             n.height = params.note.height;
             n.zorder = params.note.zorder;
             thisgraph.notes.push(n);
-            n.redraw();
+            n.createDiv();
             thisgraph.runningZ = thisgraph.runningZ < n.zorder ? n.zorder : thisgraph.runningZ;
           }
           else{
@@ -386,11 +414,11 @@ Sync.prototype.tryNoteSync = function(note){
   if (note.setNoteSizeDirty)
     this.setNoteSize(note, note.width, note.height);
 
-  if (note.setNoteNameDirty) // n.name is set on success so this does not work
-    this.setNoteName(note, "Argh!");
+  if (note.setNoteNameDirty)
+    this.setNoteName(note, note.name);
 
-  if (note.setNoteContentDirty) // Same here
-    this.setNoteContent(note, "Argh!");
+  if (note.setNoteContentDirty) // n.content is set on success so this does not work
+    this.setNoteContent(note, note.content);
     
   if (note.createNoteDirty)
     failed.push("new");
@@ -535,14 +563,16 @@ Sync.prototype.setNoteName = function(note, newName){
   var t = this;
   var n = note;
   note.setNoteNameDirty = true;
+
+  n.name=newName;
+  n.update();
+
   $.ajax({
     url: "/notes/update/"+n.id,
     dataType: "html",
     data: { "note[name]" : newName, "clientId" : t.uniqueId },
     success: function(data){
       note.setNoteNameDirty = false;
-      n.name=newName;
-      n.update();
     },
     error: function(a,b,c){
       if (t.noteSyncFailure != null)
@@ -670,7 +700,7 @@ Sync.prototype.getViewportNotes = function(x, y, w, h){
           // TODO: Check timestamps to see if update is in order.
           if(!thisgraph.getNoteById(tmp.id)){
             thisgraph.notes.push(tmp);
-            tmp.redraw();
+            tmp.createDiv();
             thisgraph.runningZ = thisgraph.runningZ < tmp.zorder ? tmp.zorder : thisgraph.runningZ;
           }
 

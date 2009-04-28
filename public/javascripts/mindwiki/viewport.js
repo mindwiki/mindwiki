@@ -1,3 +1,31 @@
+/*
+
+The MIT License
+
+Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
+Aapo Laitinen, Matias Muhonen, Anssi Männistö, Samu Ollila, Jukka Peltomäki,
+Matias Piipari, Lauri Renko, Aapo Tahkola, and Juhani Tamminen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 /* 
 
   universe: entire graph in database
@@ -221,11 +249,31 @@ Viewport.prototype.toWorldY = function(y) {
 }
 
 Viewport.prototype.setScaleInt = function(scale) {
-  /* 1.0 zoomed in.
-     0.0 entire graph is shown(if it is centered). */
+  /* 1.0 zoomed in. 0.0 zoomed out. */
+  var scalableX = this.graph.extents.max.x - this.graph.extents.min.x;
+  var scalableY = this.graph.extents.max.y - this.graph.extents.min.y;
 
-  var x = this.viewW * scale + (this.graph.extents.max.x - this.graph.extents.min.x) * (1 - scale);
-  var y = this.viewH * scale + (this.graph.extents.max.y - this.graph.extents.min.y) * (1 - scale);
+  /* Allow at least 1:4 scale. */
+  if (scalableX < this.viewW * 4)
+    scalableX = this.viewW * 4;
+
+  if (scalableY < this.viewH * 4)
+    scalableY = this.viewH * 4;
+  
+  /* Allow maximum 1:15 scale. */
+  if (scalableX > this.viewW * 15)
+    scalableX = this.viewW * 15;
+
+  if (scalableY > this.viewH * 15)
+    scalableY = this.viewH * 15;
+
+  /* Uncomment to set hard limit on zoom.
+     I.e. 1:15 regardless of graph size. */
+  /*scalableX = this.viewW * 15;
+  scalableY = this.viewH * 15;*/
+    
+  var x = this.viewW * scale + scalableX * (1 - scale);
+  var y = this.viewH * scale + scalableY * (1 - scale);
   var xScale = this.viewW / x;
   var yScale = this.viewH / y;
   
@@ -234,10 +282,6 @@ Viewport.prototype.setScaleInt = function(scale) {
   /* Take minimum. */
   this.scale = xScale < yScale ? xScale : yScale;
   
-  /* Graph extents could be smaller than view thus causing zooming in. Perhaps not
-     something worth allowing. */
-  if (this.scale > 1.0)
-    this.scale = 1.0;
   if (this.graph.scaleChanged != null)
     this.graph.scaleChanged();
 }
@@ -256,7 +300,10 @@ Viewport.prototype.scaleToWorld = function(x) {
 }
 
 Viewport.prototype.scaleByOrigin = function(x, y, scale) {
-  /* Quick and dirty. */
+  /* This is a form of zoom where point (x, y) in view coords 
+     projects to same world coords after scaling has been applied.
+     In other words, translate (x, y) to world, scale and adjust to meet this condition.
+  */
   var xMove = this.toWorldX(x) - this.x;
   var yMove = this.toWorldY(y) - this.y;
 

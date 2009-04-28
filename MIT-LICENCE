@@ -1,5 +1,3 @@
-/*
-
 The MIT License
 
 Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
@@ -23,23 +21,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-*/
-
-// Loads the color picker for the new and edit forms of graphs.
-
-$(document).ready(function() {
-
-  // default color
-  if($("#graph_color").val() == "")
-    $("#graph_color").val("#dddddd"); 
-
-  $("#picker").ColorPicker({
-    flat: true, // what?
-    color: $("#graph_color").val(),
-    onChange: function(hsb, hex, rgb){
-      $("#graph_color").val("#"+hex);
-      $("#graph_color").css("backgroundColor", "#"+hex);
-    }
-  });
-});

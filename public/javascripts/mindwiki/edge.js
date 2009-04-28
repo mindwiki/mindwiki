@@ -1,3 +1,31 @@
+/*
+
+The MIT License
+
+Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
+Aapo Laitinen, Matias Muhonen, Anssi Männistö, Samu Ollila, Jukka Peltomäki,
+Matias Piipari, Lauri Renko, Aapo Tahkola, and Juhani Tamminen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 // This file contains the Edge "class"
 
 // Constructor
@@ -38,7 +66,6 @@ function Edge (graph)
 Edge.prototype.remove = function() 
 {
   var thisgraph = this.graph;
-  var thisedge = this;
   this.erase();
   
   // Make sure controls are not visible on this one
@@ -55,8 +82,9 @@ Edge.prototype.remove = function()
   // Notify the server
   thisgraph.sync.deleteEdge(this.id);
 
-  // Delete the object
-  delete thisedge;
+  delete this.all;
+  if (browserD() != "ie7")
+    delete this;
 }
 
 Edge.prototype.setStartNote = function (note) 
@@ -126,7 +154,7 @@ Edge.prototype.update = function()
     return;
   }
 
-  // Less writing if we assume edges are in local coords all the way.
+  // Less writing if we assume edges are in view coords all the way.
   var sx = thisgraph.vp.toViewX(this.startNote.x) + thisgraph.vp.scaleToView(this.startNote.width / 2);
   var sy = thisgraph.vp.toViewY(this.startNote.y) + thisgraph.vp.scaleToView(this.startNote.height / 2);
   var ex = thisgraph.vp.toViewX(this.endNote.x) + thisgraph.vp.scaleToView(this.endNote.width / 2);
@@ -194,7 +222,6 @@ Edge.prototype.update = function()
   }
   this.textX = txtDx + (this.x1 + this.x2) / 2;
   this.textY = txtDy + (this.y1 + this.y2) / 2;
-  
   result = null;
 }
 
@@ -231,7 +258,10 @@ Edge.prototype.redraw = function()
   {
     if (this.text != null)
     {
-      this.text.attr("x", this.textX).attr("y", this.textY).rotate(radToDeg(this.textAngle), true);
+      if (browserD() == "ie7")
+        this.text.attr("x", this.textX).attr("y", this.textY);
+      else
+        this.text.attr("x", this.textX).attr("y", this.textY).rotate(radToDeg(this.textAngle), true);
     }
   }
 }
@@ -290,8 +320,14 @@ Edge.prototype.draw = function ()
   if (this.title.length > 0)
   {
     var thisEdge = this;
-    this.text = this.rCanvas.text(this.textX, this.textY, this.title).attr({"font": '14px "Arial"'})
-    .attr({"font-weight": "bold"}).attr("fill", this.color).rotate(radToDeg(this.textAngle));
+    if (browserD() == "ie7") {
+      this.text = this.rCanvas.text(this.textX, this.textY, this.title).attr({"font": '14px "Arial"'})
+      .attr({"font-weight": "bold"}).attr("fill", this.color);
+    }
+    else {
+      this.text = this.rCanvas.text(this.textX, this.textY, this.title).attr({"font": '14px "Arial"'})
+      .attr({"font-weight": "bold"}).attr("fill", this.color).rotate(radToDeg(this.textAngle));
+    }
     this.text.node.onclick = function(event) {
       var result = new Array();
       thisgraph.localCoordinates(event.pageX,event.pageY,result);

@@ -1,3 +1,31 @@
+/*
+
+The MIT License
+
+Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
+Aapo Laitinen, Matias Muhonen, Anssi Männistö, Samu Ollila, Jukka Peltomäki,
+Matias Piipari, Lauri Renko, Aapo Tahkola, and Juhani Tamminen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 // This file defines the MindWiki graph viewing and editing client
 
 $(document).ready(function(){
@@ -58,7 +86,7 @@ function Graph() {
   /* Set zoom clipping it if necessary. */
   this.vp.callerScale = this.setZoomSlider(this.vp.callerScale * 20) / 20;
 
-  this.configInit();
+  this.configInit(false); // set to true to show config
 
   // Initialize the server updating timer
   checkServerForUpdates(this.sync);
@@ -111,27 +139,56 @@ Graph.prototype.contextHelpInit = function() {
   });
 
   $(".note").livequery("mouseover", function(e){
-    graph.ch.set("<b>Edit content</b> by double clicking the content area.");
+    graph.ch.set("<strong>Edit content</strong> by double clicking the content area.");
     e.stopPropagation();
   });
 
   $(this.arrowButton.div).mouseover(function(e)
   {
-    graph.ch.set("<b>Create a connection</b> by clicking the arrow button of the first note, and then clicking the second note.");
+    graph.ch.set("<strong>Create a connection</strong> by clicking the arrow button of the first note, and then clicking the second note.");
     e.stopPropagation();
   }
   );
 
   $(this.colorButton.div).mouseover(function(e)
   {
-    graph.ch.set("<b>Change color.</b>");
+    graph.ch.set("<strong>Change color.</strong>");
     e.stopPropagation();
   }
   );
   
   $(this.deleteButton).mouseover(function(e)
   {
-    graph.ch.set("<b>Delete note.</b>");
+    graph.ch.set("<strong>Delete note.</strong>");
+    e.stopPropagation();
+  }
+  );
+
+  /* Edges. */
+  $(this.edgeTextButton).mouseover(function(e)
+  {
+    graph.ch.set("<strong>Edit text.</strong>");
+    e.stopPropagation();
+  }
+  );
+
+  $(this.edgeColorButton).mouseover(function(e)
+  {
+    graph.ch.set("<strong>Edit color.</strong>");
+    e.stopPropagation();
+  }
+  );
+
+  $(this.edgeDirectionButton.div).mouseover(function(e)
+  {
+    graph.ch.set("<strong>Make directed/undirected.</strong>");
+    e.stopPropagation();
+  }
+  );
+
+  $(this.edgeDeleteButton.div).mouseover(function(e)
+  {
+    graph.ch.set("<strong>Delete connection.</strong>");
     e.stopPropagation();
   }
   );
@@ -519,10 +576,11 @@ Graph.prototype.worldInit = function() {
       $("#mindwiki_world").css({"cursor": "move"});
       graph.cursorChanged = true;
     }
-    var x = -(event.pageX - graph.downX);
-    var y = -(event.pageY - graph.downY);
-
-    graph.vp.addViewFastMove(graph.vp.scaleToWorld(x), graph.vp.scaleToWorld(y));
+    var x = event.pageX - graph.downX;
+    var y = event.pageY - graph.downY;
+    
+    /* Reverse direction and scale to world. */
+    graph.vp.addViewFastMove(graph.vp.scaleToWorld(-x), graph.vp.scaleToWorld(-y));
     
     graph.downX = event.pageX;
     graph.downY = event.pageY;
@@ -614,40 +672,30 @@ Graph.prototype.uiInit = function() {
   this.edgeControlsInit();
 }
 
-Graph.prototype.configInit = function() {
+Graph.prototype.configInit = function(show) {
   var graph = this;
 
-  this.config = new Config();
-  $(this.config.getHandle()).addClass("config");
-  //this.config.newOption("text", "example", function(value) { alert("text is " + value); });
-
   this.mMove = true;
-//  this.config.newOption("checkbox", "mMove", function(value) { graph.mMove = value; });
-
-  // Do we want to center the selected note? TODO: Move to user preferences.
   this.scrollToSelected = true;
-  this.config.newOption("checkbox", "scrollToSelected", function(value) { graph.scrollToSelected = value; });
-
   this.controlsAfterDrag = false;
-  this.config.newOption("checkbox", "controlsAfterDrag", function(value) { graph.controlsAfterDrag = value; });
-
   this.asyncAjax = true;
-  this.config.newOption("checkbox", "synchronousAjax", function(value) { graph.asyncAjax = (value == false); });
-  
   this.debug = false;
-  this.config.newOption("checkbox", "debug", function(value) { graph.debug = value; });
 
-  this.config.newOption("button", "Hide", function() { $(graph.config.div).hide("slow"); });
-  //this.config.newOption("button", "setView", function() { graph.vp.setView(graph.vp.x, graph.vp.y); });
+  if (show) {
+    this.config = new Config();
+    $(this.config.getHandle()).addClass("config");
+    //this.config.newOption("text", "example", function(value) { alert("text is " + value); });
+    //this.config.newOption("button", "setView", function() { graph.vp.setView(graph.vp.x, graph.vp.y); });
 
-  $("#vport").append(this.config.getHandle());
-}
+    this.config.newOption("checkbox", "mMove", function(value) { graph.mMove = value; });
+    this.config.newOption("checkbox", "scrollToSelected", function(value) { graph.scrollToSelected = value; });
+    this.config.newOption("checkbox", "controlsAfterDrag", function(value) { graph.controlsAfterDrag = value; });
+    this.config.newOption("checkbox", "synchronousAjax", function(value) { graph.asyncAjax = (value == false); });
+    this.config.newOption("checkbox", "debug", function(value) { graph.debug = value; });
+    this.config.newOption("button", "Hide", function() { $(graph.config.div).hide("slow"); });
 
-// Loads more notes and edges after viewport size or scrolling has been changed.
-// They could be in different methods to increase performance somewhat.
-Graph.prototype.viewportChanged = function()
-{
-
+    $("#vport").append(this.config.getHandle());
+  }
 }
 
 Graph.prototype.scaleChanged = function() {
@@ -674,7 +722,7 @@ Graph.prototype.scaleChanged = function() {
 Graph.prototype.beginEdgeCreation = function()
 {
   this.globalStartNote = this.selectedNote;
-  this.ch.setPriorityText("<b>Select target note</b> or click on active note to cancel.", 1);
+  this.ch.setPriorityText("<strong>Select target note</strong> or click on active note to cancel.", 1);
   this.selectedNote.disable();
   this.selectedNote.disableLinkedNotes();
 
@@ -688,9 +736,12 @@ Graph.prototype.beginEdgeCreation = function()
 
 Graph.prototype.endEdgeCreation = function()
 {
+  /* Restore toggle button. */
   this.arrowButton.setState(false);
+  
   if (this.globalStartNote == null)
     return;
+  
   /* Restore color. */
   this.globalStartNote.enable();
   this.globalStartNote.enableLinkedNotes();
@@ -718,7 +769,7 @@ Graph.prototype.createNoteAt = function(name, x, y)
     tmp.y -= tmp.height / 2;
     
     tmp.newID();
-    tmp.redraw();
+    tmp.createDiv();
     tmp.center(); // Center on create regardless of user preferences
     // Let's select the new note right away, too.
     this.notes.push(tmp);
@@ -757,7 +808,9 @@ Graph.prototype.detachControls = function(thisnote){
 
 
 Graph.prototype.attachControlsToEdge = function(x,y){
+  /* Restore toggle button. */
   this.edgeDirectionButton.setState(this.selectedEdge.isDirected() == false);
+  
   $(this.edgeButtonsDiv).show();
   $(this.edgeButtonsDiv).css({
     "top" : y-31 +"px",

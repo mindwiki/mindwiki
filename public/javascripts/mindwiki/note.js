@@ -1,3 +1,31 @@
+/*
+
+The MIT License
+
+Copyright (c) 2009 Sami Blommendahl, Mika Hannula, Ville Kivelä,
+Aapo Laitinen, Matias Muhonen, Anssi Männistö, Samu Ollila, Jukka Peltomäki,
+Matias Piipari, Lauri Renko, Aapo Tahkola, and Juhani Tamminen.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
 // This file defines the MindWiki note objects
 
 // Note is the "class" for all notes.
@@ -44,6 +72,9 @@ Note.prototype.updateCSS = function() {
 
   // Color change
   $(this.articleDiv).css({"backgroundColor": this.color});
+
+  // This is for every note unlike dragControls that is for active note only
+  this.syncErrorDrag();
 }
 
 Note.prototype.scaleChanged = function() {
@@ -78,12 +109,16 @@ Note.prototype.select = function() {
       /* Ensure canvas is large enough so note can leave visible viewport.
        * This seems to cause problems with ff3. Call setView after drag ends instead. */
       //thisgraph.vp.setView(thisgraph.vp.x1, thisgraph.vp.y1);
+      
+      //Works around the invisible graph -bug in ie
+      $("#vport").css({"height": thisgraph.vp.viewH});
     },
     // Update note size after resizing.
     stop: function(event, ui){
       thisnote.width = thisgraph.vp.scaleToWorld(ui.size.width);
       thisnote.height = thisgraph.vp.scaleToWorld(ui.size.height);
       thisgraph.sync.setNoteSize(thisnote, thisnote.width, thisnote.height);
+      $("#vport").css({"height": ""});
     },
     resize: function(event, ui){
       thisnote.width = thisgraph.vp.scaleToWorld(ui.size.width);
@@ -254,8 +289,9 @@ Note.prototype.remove = function() {
   // Notify the server
   this.graph.sync.deleteNote(this.id);
 
-  // Delete the object
-  delete thisnote;
+  delete this.all;
+  if (browserD() != "ie7")
+    delete this;
 }
 
 // Removes an edge from container.
@@ -375,8 +411,10 @@ Note.prototype.syncError = function(content) {
     $("#mindwiki_world").append(this.syncErrorDiv);
   }
   if (content == null) {
-    $(this.syncErrorDiv).hide("slow");
-    // TODO: destroy this.syncErrorDiv
+    //$(this.syncErrorDiv).hide("slow");
+    document.getElementById("mindwiki_world").removeChild(this.syncErrorDiv);
+    this.syncErrorDiv = null;
+    return;
   }
   
   $(this.syncErrorDiv).html(content);
@@ -400,7 +438,7 @@ Note.prototype.syncErrorDrag = function() {
 
 // This function (re)constructs the whole div!
 // Use after loading a Note with data.
-Note.prototype.redraw = function() {
+Note.prototype.createDiv = function() {
   var thisgraph = this.graph;
   var thisnote = this; // To be used in submethods, e.g. click-handlers.
 
@@ -429,6 +467,9 @@ Note.prototype.redraw = function() {
       /* Ensure canvas is large enough so note can leave visible viewport.
        * This seems to cause problems with ff3. Call setView after drag ends instead. */
       //thisgraph.vp.setView(thisgraph.vp.x1, thisgraph.vp.y1);
+      
+      //Works around the invisible graph -bug in ie
+      $("#vport").css({"height": thisgraph.vp.viewH});
       
       if (thisgraph.controlsAfterDrag == true)
         thisgraph.detachControls(thisnote);
@@ -489,6 +530,7 @@ Note.prototype.redraw = function() {
       thisnote.x = thisgraph.vp.toWorldX(ui.position.left);
       thisnote.y = thisgraph.vp.toWorldY(ui.position.top);
       thisgraph.sync.setNotePosition(thisnote, thisnote.x, thisnote.y);
+      $("#vport").css({"height": ""});
       if (thisgraph.controlsAfterDrag == true)
         thisgraph.attachControls(thisnote);
       
